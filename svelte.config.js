@@ -14,7 +14,7 @@ const config = {
 		adapter: adapter({
 			pages: 'build',
 			assets: 'build',
-			// fallback: '200.html', // bruk denne hvis du vil ha SPA-fallback
+			fallback: '200.html', // <- viktig
 			precompress: true
 		}),
 		alias: {
