@@ -1,15 +1,18 @@
 <script lang="ts">
 	import '../app.css';
-	import Navbar from '$lib/components/Navbar.svelte';
 	import FlowingCirclesOverlay from '$lib/components/FlowingCirclesOverlay.svelte';
-
+	import Header from '$lib/components/Header.svelte';
+	import Footer from '$lib/components/Footer.svelte';
+	import BackToTop from '$lib/components/BackToTop.svelte';
 	let { children } = $props();
 </script>
 
 <main
-	class="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-blue-950 to-black text-white"
+	class="flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-blue-950 to-black text-white"
 >
-	<Navbar />
+	<Header />
 	<FlowingCirclesOverlay />
 	{@render children()}
+	<Footer />
+	<BackToTop />
 </main>
