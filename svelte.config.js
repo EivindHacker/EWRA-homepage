@@ -1,21 +1,23 @@
-import adapter from '@sveltejs/adapter-node';
-import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
+import adapter from '@sveltejs/adapter-static';
+import { vitePreprocess } from '@sveltejs/kit/vite';
 
-/** @type {import('@sveltejs/kit').Config} */
-const config = {
-	// Consult https://svelte.dev/docs/kit/integrations
-	// for more information about preprocessors
-	preprocess: vitePreprocess(),
+const dev = process.argv.includes('dev');
+// Hvis du **ikke** bruker eget domene og publiserer til repoet ditt (project pages),
+// sett base til '/<repo-navn>' i prod. Med eget domene, la base være ''.
+const base = dev ? '' : '/<repo-navn>'; // fjern/erstatt hvis du bruker custom domain
 
-	kit: {
-		// adapter-auto only supports some environments, see https://svelte.dev/docs/kit/adapter-auto for a list.
-		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
-		// See https://svelte.dev/docs/kit/adapters for more information about adapters.
-		adapter: adapter(),
-		alias: {
-			'@': './src/lib'
-		}
-	}
+export default {
+  preprocess: vitePreprocess(),
+  kit: {
+    adapter: adapter({
+      pages: 'build',
+      assets: 'build',
+      fallback: '404.html', // GitHub Pages bruker 404.html som SPA-fallback
+      precompress: true
+    }),
+    paths: { base }
+  }
 };
+
 
 export default config;
