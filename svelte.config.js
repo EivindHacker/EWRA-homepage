@@ -1,22 +1,28 @@
+// svelte.config.js
 import adapter from '@sveltejs/adapter-static';
-import { vitePreprocess } from '@sveltejs/kit/vite';
+import sveltePreprocess from 'svelte-preprocess';
 
 const dev = process.argv.includes('dev');
-// Hvis du **ikke** bruker eget domene og publiserer til repoet ditt (project pages),
-// sett base til '/<repo-navn>' i prod. Med eget domene, la base være ''.
-const base = dev ? '' : '/<repo-navn>'; // fjern/erstatt hvis du bruker custom domain
+// Bruk KUN base på GitHub "project pages": https://USERNAME.github.io/EWRA-homepage
+const base = dev ? '' : '/EWRA-homepage';
 
-export default {
-  preprocess: vitePreprocess(),
-  kit: {
-    adapter: adapter({
-      pages: 'build',
-      assets: 'build',
-      fallback: '404.html', // GitHub Pages bruker 404.html som SPA-fallback
-      precompress: true
-    }),
-    paths: { base }
-  }
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+	preprocess: sveltePreprocess(),
+	kit: {
+		// slett denne linjen hvis du bruker eget domene
+		paths: { base },
+
+		adapter: adapter({
+			pages: 'build',
+			assets: 'build',
+			// GitHub Pages trenger 404.html som SPA-fallback
+			fallback: '404.html',
+			precompress: true,
+			// tillat dynamiske ruter (SPA) — de prerendres ikke
+			strict: false
+		})
+	}
 };
 
 export default config;
