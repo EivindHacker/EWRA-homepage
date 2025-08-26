@@ -1,10 +1,6 @@
+// svelte.config.js
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/kit/vite';
-
-const dev = process.argv.includes('dev');
-// Hvis du **ikke** bruker eget domene og publiserer til repoet ditt (project pages),
-// sett base til '/<repo-navn>' i prod. Med eget domene, la base være ''.
-const base = dev ? '' : '/<repo-navn>'; // fjern/erstatt hvis du bruker custom domain
 
 export default {
   preprocess: vitePreprocess(),
@@ -12,12 +8,12 @@ export default {
     adapter: adapter({
       pages: 'build',
       assets: 'build',
-      fallback: '404.html', // GitHub Pages bruker 404.html som SPA-fallback
+      fallback: '404.html',  // <- viktig for dynamiske ruter på statisk hosting (GH Pages)
       precompress: true
-    }),
-    paths: { base }
+    })
   }
 };
+
 
 
 export default config;
